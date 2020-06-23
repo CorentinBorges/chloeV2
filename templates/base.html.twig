@@ -3,10 +3,157 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href="lib/vendors/layoutFrontend/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Custom fonts for this template -->
+            <link href="lib/vendors/layoutFrontend/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+            <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+            <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+            <link href="Web/css/clean-blog.css" rel="stylesheet">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
     </head>
     <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="index">Chloé</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index">Portfolio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="papier">Papier</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="numerique">Numérique</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="a_propos">A propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <!-- Page Header -->
+
+        </header>
+
+        {% if block("title") is defined %}
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center mb-5">
+                    <h1>{% block h1 %}{% endblock %}</h1>
+                </div>
+            </div>
+        {% endif %}
+
+
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        {% if list is defined %}
+            {% block pictures %}
+                <div class="gallery container " id="gallery">
+                    {% for picture in list %}
+                        <div class=" pics animation all 2 mb-5  mt-5">
+                            <button>  <img title='{{picture.title}}' class="img-fluid image" id={{picture.id}} src='{{ "Web/img/" ~ picture.fileName }}' alt="{{picture.alt}}"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endblock %}
+
+            {% block carousel %}
+                <div id='carousel-overlay'>
+
+                    <div id="carousel-window">
+                        <button id="carousel-close" type="button" class="close-but close" aria-label="Close">
+                            <span   aria-hidden="true">&times;</span>
+                        </button>
+                        <div id="carouselExampleIndicators" class="carousel slide " data-interval="false" data-ride="carousel" >
+
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1" ></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                {% for picture in list %}
+                                    <div id="{{'pic' ~ picture.id}}" class="carousel-item">
+                                        <img class="d-block w-100" src='{{ "Web/img/" ~ picture.fileName }}' alt="{{picture.alt}}">
+                                    </div>
+                                {% endfor %}
+
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endblock %}
+        {% endif %}
+
+        <!-- Footer -->
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="mailto:chloesimonneaud@gmail.com" target="_blanck">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.instagram.com/chloeowyn/" target="_blanck">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <p class="copyright text-muted">Copyright &copy; Un site créé par Corentin Borges</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+                    crossorigin="anonymous">
+            </script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+                    crossorigin="anonymous"></script>
+            <script src="lib/vendors/layoutFrontend/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="Web/js/clean-blog.js"></script>
+        {% endblock %}
     </body>
 </html>
