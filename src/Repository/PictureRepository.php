@@ -27,6 +27,7 @@ class PictureRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->andWhere("p.".$attribute." IS NOT NULL")
+            ->orderBy("p.".$attribute, 'DESC')
             ->getQuery()
             ->getResult();
     }
