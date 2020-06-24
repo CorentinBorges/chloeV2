@@ -3,6 +3,18 @@
 {% block title %}Hello FrontController!{% endblock %}
 
 {% block body %}
+    {% if list is defined %}
+    {% block pictures %}
+        <div class="gallery container " id="gallery">
+            {% for picture in list %}
+                <div class=" pics animation all 2 mb-5  mt-5">
+                    <button>  <img title='{{picture.title}}' class="img-fluid image" id={{picture.id}} src='{{ "Web/img/" ~ picture.fileName }}' alt="{{picture.alt}}"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }

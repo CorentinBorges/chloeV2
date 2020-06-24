@@ -4,13 +4,9 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link href="lib/vendors/layoutFrontend/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
             <!-- Custom fonts for this template -->
-            <link href="lib/vendors/layoutFrontend/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-            <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-            <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-            <link href="Web/css/clean-blog.css" rel="stylesheet">
+
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
@@ -52,28 +48,19 @@
 
         </header>
 
-        {% if block("title") is defined %}
+        {% block title %}
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center mb-5">
                     <h1>{% block h1 %}{% endblock %}</h1>
                 </div>
             </div>
-        {% endif %}
+        {% endblock %}
 
 
 
         {% block body %}{% endblock %}
 
-        {% if list is defined %}
-            {% block pictures %}
-                <div class="gallery container " id="gallery">
-                    {% for picture in list %}
-                        <div class=" pics animation all 2 mb-5  mt-5">
-                            <button>  <img title='{{picture.title}}' class="img-fluid image" id={{picture.id}} src='{{ "Web/img/" ~ picture.fileName }}' alt="{{picture.alt}}"></button>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endblock %}
+
 
             {% block carousel %}
                 <div id='carousel-overlay'>

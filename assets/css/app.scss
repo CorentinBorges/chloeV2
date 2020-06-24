@@ -1,1 +1,20 @@
 @import "~bootstrap";
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+@import "layout/header";
+@import "layout/footer";
+@import "layout/body";
+@import "layout/dropDownMenu";
+
+@import "components/adminHome";
+@import "components/caroussel";
+@import "components/contact";
+@import "components/contact";
+@import "components/delPic";
+@import "components/edit";
+@import "components/gallery";
+
+@import "fonts/lora";
+@import "fonts/open_sans";
