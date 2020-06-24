@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +19,20 @@ class PictureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Picture::class);
     }
+
+    /**
+     * @return Picture[] Returns an array of Picture objects
+     */
+    public function findNotNull(?string $attribute)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.".$attribute." IS NOT NULL")
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
 
     // /**
     //  * @return Picture[] Returns an array of Picture objects

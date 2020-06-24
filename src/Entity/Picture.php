@@ -123,4 +123,10 @@ class Picture
 
         return $this;
     }
+
+    public function portfolio(?string $attribute)
+    {
+        $criteria=PictureRepository::CreateNotNull($attribute);
+        return $this->portfolio->matching($criteria);
+    }
 }
