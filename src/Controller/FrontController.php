@@ -20,7 +20,7 @@ class FrontController extends AbstractController
             throw $this->createNotFoundException("La page que vous cherchez n'existe pas");
         }
 
-        return $this->render('front/index.html.twig', [
+        return $this->render('front/show.html.twig', [
             'title' => ucfirst($slug),
             'pictures' =>$pictures,
         ]);
