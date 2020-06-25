@@ -21,7 +21,7 @@ class FrontController extends AbstractController
         }
 
         return $this->render('front/index.html.twig', [
-            'title' => 'Portfolio',
+            'title' => ucfirst($slug),
             'pictures' =>$pictures,
         ]);
     }
