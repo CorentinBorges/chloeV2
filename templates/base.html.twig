@@ -5,8 +5,6 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
 
-            <!-- Custom fonts for this template -->
-
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
@@ -15,7 +13,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="index">Chloé</a>
+                <a class="navbar-brand" href="{{ path('show',{slug: "portfolio"}) }}">Chloé</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -48,15 +46,11 @@
 
         </header>
 
-
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center mb-5">
                     <h1>{% block titleh1 %}{% endblock %}</h1>
                 </div>
             </div>
-
-
-
 
         {% block body %}{% endblock %}
 

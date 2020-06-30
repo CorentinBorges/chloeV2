@@ -2,7 +2,7 @@
 Error: File to import not found or unreadable: ~bootstrap.
         on line 1 of app.scss
 
-1: @import "~bootstrap";
+1: @import '~bootstrap';
 2: @import '~@fortawesome/fontawesome-free/scss/regular';
 3: @import '~@fortawesome/fontawesome-free/scss/solid';
 4: @import '~@fortawesome/fontawesome-free/scss/brands';
@@ -48,4 +48,4 @@ C:/Ruby26-x64/bin/sass:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: ~bootstrap.\A         on line 1 of app.scss\A \A 1: @import \"~bootstrap\";\A 2: @import '~@fortawesome/fontawesome-free/scss/regular';\A 3: @import '~@fortawesome/fontawesome-free/scss/solid';\A 4: @import '~@fortawesome/fontawesome-free/scss/brands';\A 5: \A 6: @import \"layout/header\";"; }
+  content: "Error: File to import not found or unreadable: ~bootstrap.\A         on line 1 of app.scss\A \A 1: @import '~bootstrap';\A 2: @import '~@fortawesome/fontawesome-free/scss/regular';\A 3: @import '~@fortawesome/fontawesome-free/scss/solid';\A 4: @import '~@fortawesome/fontawesome-free/scss/brands';\A 5: \A 6: @import \"layout/header\";"; }
