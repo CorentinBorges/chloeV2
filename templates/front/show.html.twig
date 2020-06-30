@@ -15,8 +15,6 @@
             {% endfor %}
         </div>
 
-
-        {#{% block carousel %}
             <div id='carousel-overlay'>
 
                 <div id="carousel-window">
@@ -33,9 +31,9 @@
                             <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
                         </ol>
                         <div class="carousel-inner">
-                            {% for picture in list %}
+                            {% for picture in pictures %}
                                 <div id="{{'pic' ~ picture.id}}" class="carousel-item">
-                                    <img class="d-block w-100" src='{{ asset('build/images'~) }}' alt="{{picture.alt}}">
+                                    <img class="d-block w-100" src='{{ asset('build/images/'~ picture.fileName) }}' alt="{{picture.alt}}">
                                 </div>
                             {% endfor %}
 
@@ -52,6 +50,8 @@
                 </div>
             </div>
 
-        {% endblock %}#}
-
+       {% block javascripts %}
+           {{ parent() }}
+           {{ encore_entry_script_tags('caroussel') }}
+       {% endblock %}
 {% endblock %}
