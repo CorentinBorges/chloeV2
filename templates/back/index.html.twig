@@ -8,18 +8,18 @@
     <div class="text-center container" id="stats">
 
         <div>
-            <p>Nombre d'images : <span id='total'></span> {{ all }}</p>
+            <p>Nombre d'images : <span id='total'>{{ all }}</span> </p>
             <p>Images dans le portfolio : <span id="portfolio">{{ count.portfolio }}</span> </p>
-            <p>Images dans papier : <span id='papier'></span>{{ count.papier }}</p>
-            <p>Images dans numérique : <span id='num'>  </span>{{ count.numerique }}</p>
+            <p>Images dans papier : <span id='papier'>{{ count.papier }}</span></p>
+            <p>Images dans numérique : <span id='num'> {{ count.numerique }}</span></p>
         </div>
-        <div class='graph'>
+        <div class='graph d-none d-sm-block justify-content-center text-center ml-5'>
             <canvas  id="barChart" style="max-width: 900px;"></canvas>
         </div>
     </div>
 {% endblock %}
-{#{% block javascripts %}
+{% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('mdb') }}
-{% endblock %}#}
+    <script src="{{ asset('js/mdb.min.js') }}"></script>
+{% endblock %}
 
