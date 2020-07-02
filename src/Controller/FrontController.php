@@ -43,4 +43,12 @@ class FrontController extends AbstractController
     {
         return $this->render('front/contacts.html.twig');
     }
+
+    /**
+     * @Route("/a_propos",name="app_about")
+     */
+    public function about()
+    {
+        return $this->render("front/about.html.twig");
+    }
 }
