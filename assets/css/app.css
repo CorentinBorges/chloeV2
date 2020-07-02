@@ -8,7 +8,7 @@ Error: File to import not found or unreadable: ~bootstrap.
 4: @import '~@fortawesome/fontawesome-free/scss/brands';
 5: 
 6: @import "layout/header";
-
+ 
 Backtrace:
 app.scss:1
 C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/sass-3.7.4/lib/sass/tree/import_node.rb:67:in `rescue in import'

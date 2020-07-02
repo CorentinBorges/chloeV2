@@ -42,6 +42,14 @@
             </nav>
         {% endblock %}
     </header>
+    {% block adminWarning %}
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="alert alert-warning container ">
+               ⚠ Vous êtes connectée en temps que {{ app.user.username}} :
+                <a class="text-black-50" href={{ path('app_admin_home') }}>Espace admin</a>
+            </div>
+        {% endif %}
+    {% endblock %}
 
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center text-center mb-5">
