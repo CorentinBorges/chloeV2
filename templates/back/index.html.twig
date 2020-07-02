@@ -1,0 +1,21 @@
+{% extends 'base_admin.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+    {#<div class="col-md-12 d-flex justify-content-center mb-5">
+        <h1>L'espace de l'administratrice</h1>
+    </div>#}
+
+    <div class="text-center container" id="stats">
+
+        <div>
+            <p>Nombre d'images : <span id='total'></span> {{ all }}</p>
+            <p>Images dans le portfolio : <span id="portfolio">{{ count.portfolio }}</span> </p>
+            <p>Images dans papier : <span id='papier'></span>{{ count.papier }}</p>
+            <p>Images dans numérique : <span id='num'>  </span>{{ count.numerique }}</p>
+        </div>
+        <div class='graph'>
+            <canvas  id="barChart" style="max-width: 900px;"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
