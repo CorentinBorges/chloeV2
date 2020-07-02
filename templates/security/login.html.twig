@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Administration{% endblock %}
+{% block body %}
+    <div class="container">
+        <form method="post">
+            {% if error %}
+                <div class="alert-danger alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <div class="form-group" >
+                <label for="username">Utilisateur</label>
+                <input type="text" class="form-control" id="username" name='username' aria-describedby="emailHelp" placeholder="Nom d'utilisateur">
+            </div>
+            <div class="form-group">
+                <label for="pass">Password</label>
+                <input type="password" class="form-control" id="pass" placeholder="Mot de pass" name='password'>
+            </div>
+            <div class="form-check mb-4 ">
+                <label>
+                    <input type="checkbox" value="Se souvenir de moi"> Se souvenir de moi
+                </label>
+{#                <label class="form-check-label ml-2 "  for="exampleCheck1">Retenir mes informations</label>#}
+            </div>
+            <button type="submit" name="_remember_me" class="btn btn-primary">Se connecter</button>
+        </form>
+    </div>
+{% endblock %}

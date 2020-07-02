@@ -29,6 +29,8 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('caroussel', './assets/js/caroussel.js')
+    // .addEntry('mdb', './assets/js/mdb.min.js')
+
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

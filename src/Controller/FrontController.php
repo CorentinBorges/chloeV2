@@ -9,6 +9,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class FrontController extends AbstractController
 {
     /**
+     * @Route("/",name="app_home")
+     */
+    public function home(PictureRepository $repository)
+    {
+        $pictures = $repository->findNotNull("portfolio");
+        return $this->render('front/show.html.twig', [
+            'title' => 'Portfolio',
+            'pictures' =>$pictures,
+        ]);
+    }
+
+    /**
      * @Route("/images/{slug}", name="show")
      */
     public function index(PictureRepository $repository,$slug='portfolio')
