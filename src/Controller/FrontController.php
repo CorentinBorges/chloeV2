@@ -2,16 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Picture;
 use App\Repository\PictureRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontController extends AbstractController
 {
     /**
-     * @Route("/{slug}", name="show")
+     * @Route("/images/{slug}", name="show")
      */
     public function index(PictureRepository $repository,$slug='portfolio')
     {
@@ -24,5 +22,13 @@ class FrontController extends AbstractController
             'title' => ucfirst($slug),
             'pictures' =>$pictures,
         ]);
+    }
+
+    /**
+     * @Route("/contact",name="app_contact")
+     */
+    public function contact()
+    {
+        return $this->render('front/contacts.html.twig');
     }
 }
