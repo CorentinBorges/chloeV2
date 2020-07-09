@@ -12,23 +12,13 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method WebsiteInfos[]    findAll()
  * @method WebsiteInfos[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WebsiteInfosRepository extends ServiceEntityRepository
+class WebsiteInfosRepository extends baseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, WebsiteInfos::class);
     }
 
-
-    public function maxId()
-    {
-        return $this->createQueryBuilder('w')
-            ->select('MAX(p.id)')
-            ->from('App:WebsiteInfos','p')
-            ->getQuery()
-            ->getSingleScalarResult()
-        ;
-    }
 
     /*
     public function findOneBySomeField($value): ?WebsiteInfos

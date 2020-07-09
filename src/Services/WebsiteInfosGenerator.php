@@ -18,7 +18,7 @@ class WebsiteInfosGenerator
 
     public function __construct(WebsiteInfosRepository $websiteInfosRepository)
     {
-        $this->infos=$websiteInfosRepository->find($websiteInfosRepository->maxId());
+        $this->infos=$websiteInfosRepository->find($websiteInfosRepository->maxId('App:WebsiteInfos'));
     }
 
     public function getInstagram()
@@ -28,6 +28,7 @@ class WebsiteInfosGenerator
 
     public function getMail()
     {
+
         return $this->infos->getMail();
     }
 
