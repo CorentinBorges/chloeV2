@@ -37,7 +37,7 @@
                         <div class="carousel-inner">
                             {% for picture in pictures %}
                                 <div id="{{'pic' ~ picture.id}}" class="carousel-item">
-                                    <img class="d-block w-100" src='{{ asset('build/images/'~ picture.fileName) }}' alt="{{picture.alt}}">
+                                    <img class="d-block w-100" src='{{ asset('images/'~ picture.fileName) }}' alt="{{picture.alt}}">
                                 </div>
                             {% endfor %}
 

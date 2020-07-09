@@ -34,4 +34,12 @@ class BackController extends AbstractController
             'count' => $count,
         ]);
     }
+
+    /**
+     * @Route("/admin/editLogs",name="app_editLogs")
+     */
+    public function editLogs()
+    {
+        return $this->render('back/editLogs.html.twig');
+    }
 }

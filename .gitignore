@@ -9,6 +9,7 @@
 /var/
 /vendor/
 /src/DataFixtures/UserFixture.php
+/src/DataFixtures/WebsiteInfosFixture.php
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-bundle ###
