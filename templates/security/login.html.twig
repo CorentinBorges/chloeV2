@@ -9,7 +9,7 @@
             {% endif %}
             <div class="form-group" >
                 <label for="username">Utilisateur</label>
-                <input type="text" class="form-control" id="username" name='username' aria-describedby="emailHelp" placeholder="Nom d'utilisateur">
+                <input type="text" class="form-control" id="username" value="{{ last_username }}" name='username' aria-describedby="emailHelp" placeholder="Nom d'utilisateur">
             </div>
             <div class="form-group">
                 <label for="pass">Password</label>
@@ -21,6 +21,7 @@
                 </label>
 {#                <label class="form-check-label ml-2 "  for="exampleCheck1">Retenir mes informations</label>#}
             </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <button type="submit" name="_remember_me" class="btn btn-primary">Se connecter</button>
         </form>
     </div>

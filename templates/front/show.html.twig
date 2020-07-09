@@ -2,6 +2,10 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+{% endblock %}
 
 {% block body %}
 
@@ -10,7 +14,7 @@
         <div class="gallery container " id="gallery">
             {% for picture in pictures %}
                 <div class=" pics animation all 2 mb-5  mt-5">
-                    <button>  <img title='{{ picture.title }}' class="img-fluid image" id="{{ picture.id }}" src="{{ asset('build/images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
+                    <button>  <img title='{{ picture.title }}' class="img-fluid image" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
                 </div>
             {% endfor %}
         </div>
@@ -52,6 +56,6 @@
 
        {% block javascripts %}
            {{ parent() }}
-           {{ encore_entry_script_tags('caroussel') }}
+           <script src="{{ asset('js/carousel.js') }}"></script>
        {% endblock %}
 {% endblock %}

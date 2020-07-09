@@ -1,0 +1,87 @@
+/****************Gallery*******************/
+
+.gallery {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    -webkit-column-width: 33%;
+    -moz-column-width: 33%;
+    column-width: 33%; }
+.gallery .pics {
+    -webkit-transition: all 350ms ease;
+    transition: all 350ms ease; }
+
+
+@media (max-width: 450px) {
+    .gallery {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+        -webkit-column-width: 100%;
+        -moz-column-width: 100%;
+        column-width: 100%;
+    }
+}
+
+@media (max-width: 400px) {
+    .btn.filter {
+        padding-left: 1.1rem;
+        padding-right: 1.1rem;
+    }
+}
+
+/*****************Carousel*********************/
+
+#carousel-overlay
+{
+    background-color: rgba(255,255,255,0.8);
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 10rem;
+    display: none;
+    z-index: 450;
+}
+
+@media (max-width: 450px)
+{
+    #carousel-overlay
+    {
+        background-color: rgba(255,255,255,0.8);
+        position: fixed;
+        right: 0rem;
+        top: 0rem;
+        width: 100%;
+        height: 100%;
+        padding-top: 8rem;
+        display: none;
+        z-index: 450;
+    }
+    #carousel-window
+    {
+        margin:  auto;
+        height: 5rem;
+        width: 5rem;
+    }
+
+
+}
+
+
+#carousel-window
+{
+    justify-content: center;
+    margin:  auto;
+    height: 30rem;
+    width: 30rem;
+}
+
+.close-but
+{
+
+    transform: scale(2);
+    z-index: 152;
+
+}

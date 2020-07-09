@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Contact{% endblock%}
-
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
+{% endblock %}
 {% block body %}
     <div class="row">
 
@@ -32,7 +34,7 @@
         </div>
 
         <div class="img-contact d-none d-sm-block" >
-            <img src="{{ asset('build/images/diables.png')}}" id="diables" alt="Deux petits diables au talki-walkie"  />
+            <img src="{{ asset('images/diables.png')}}" id="diables" alt="Deux petits diables au talki-walkie"  />
         </div>
     </div>
 
