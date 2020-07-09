@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\UserFormType;
 use App\Form\WebInfosFormType;
 use App\Repository\PictureRepository;
@@ -54,28 +55,38 @@ class BackController extends BaseController
      */
     public function editLogs(UserRepository $userRepository,Request $request,UserPasswordEncoderInterface $passwordEncoder,WebsiteInfosRepository $infosRepository,EntityManagerInterface $em)
     {
-        $user = $userRepository->find($userRepository->maxId('App:User'));
+        $user = new User();
+        $admin = $userRepository->find($userRepository->maxId('App:User'));
+
         $infos = $infosRepository->find($infosRepository->maxId('App:WebsiteInfos'));
         $infoForm = $this->createForm(WebInfosFormType::class,$infos);
         $infoForm->handleRequest($request);
+        if ($infoForm->isSubmitted() && $infoForm->getErrors()) {
+            $this->addFlash('error','Aïe, les données n\'ont pu être modifiées!');
+
+        }
+
         $userForm = $this->createForm(UserFormType::class, $user);
         $userForm->handleRequest($request);
-
+        if ($userForm->isSubmitted() && !($userForm->isValid())) {
+            $this->addFlash('error','Aïe, il y à une erreur dans le nom ou le mot de passe!');
+        }
 
         if ($infoForm->isSubmitted() && $infoForm->isValid()) {
-
             $infos = $infoForm->getData();
+
             $em->persist($infos);
             $em->flush();
             $this->addFlash('success','Bravo!!! Vous avez admirablement modifié votre site!');
         }
-
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $user = $userForm->getData();
+            $admin->setUsername($userForm['username']->getData());
             if ($userForm['plainPassword']->getData() && !empty($userForm['plainPassword']->getData())) {
-                $user->setPassword($passwordEncoder->encodePassword($user, $userForm['plainPassword']->getData()));
+                $admin->setPassword($passwordEncoder->encodePassword($user, $userForm['plainPassword']->getData()));
             }
-            $em->persist($user);
+
+
+            $em->persist($admin);
             $em->flush();
             $this->addFlash('success','Bravo!!! Vous avez admirablement modifié vos données d\'utilisatrice!');
 
