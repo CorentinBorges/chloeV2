@@ -1,0 +1,35 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(userForm) }}
+            {{ form_row(userForm.username) }}
+        <p>
+            <a  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+              aria-controls="collapseExample">
+                Modifier mot de passe
+            </a>
+        </p>
+        <div class="collapse mb-5" id="collapseExample">
+            <div class="card card-body ">
+                {{ form_row(userForm.plainPassword) }}
+            </div>
+        </div>
+            <button type="submit" class="btn btn-primary">Modifier!</button>
+        {{ form_end(userForm) }}
+    </div>
+
+    <div class="container mt-5">
+        <h3>Données du site</h3>
+        {{ form_start(infosForm) }}
+            {{ form_widget(infosForm) }}
+        <button type="submit" class="btn btn-primary">Modifier!</button>
+        {{ form_end(infosForm) }}
+
+    </div>
+{% endblock %}
+
+{% block title %}Profil{% endblock %}
+
+
+

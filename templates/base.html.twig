@@ -57,6 +57,7 @@
         {% endif %}
     {% endblock %}
 
+
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center text-center mb-5">
                     <h1>{{ block('title') }}</h1>
@@ -72,7 +73,7 @@
                     <div class="col-lg-8 col-md-10 mx-auto">
                         <ul class="list-inline text-center">
                             <li class="list-inline-item">
-                                <a href="mailto:chloesimonneaud@gmail.com" target="_blanck">
+                                <a href="mailto:{{ infos.mail }}" target="_blanck">
                                         <span class="fa-stack fa-lg">
                                             <i class="fa fa-circle fa-2x "></i>
                                             <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
@@ -80,7 +81,7 @@
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="https://www.instagram.com/chloeowyn/" target="_blanck">
+                                <a href="{{ infos.instagram }}" target="_blanck">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-circle fa-2x"></i>
                                           <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>

@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Repository\PictureRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 class FrontController extends AbstractController
 {
+
     /**
      * @Route("/",name="app_home")
      */

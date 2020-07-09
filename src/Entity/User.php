@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -20,6 +21,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Le nom d'utilisateur ne peut pas être vide")
+     * @Assert\Length(min="5",minMessage="Votre nom doit comporter au moins 5 caractères",
+     *     max="20",maxMessage="Votre nom d'utilisateur ne peut pas dépsser 20 caractères")
+     *
      */
     private $username;
 
@@ -33,11 +38,6 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     /**
      * A visual identifier that represents this user.
@@ -106,4 +106,5 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
 }
