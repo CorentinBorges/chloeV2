@@ -92,11 +92,23 @@ class BackController extends BaseController
 
         }
 
-
-
         return $this->render('back/editLogs.html.twig',[
             'userForm' => $userForm->createView(),
             'infosForm' => $infoForm->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/order/{page<papier|portfolio|numerique>}",name="app_order")
+     */
+    public function changeOrder($page,PictureRepository $pictureRepository)
+    {
+
+        $pictures = $pictureRepository->findNotNull($page);
+        return $this->render('back/order.html.twig', [
+            'title' => ucfirst($page),
+            'pictures' =>$pictures,
+        ]);
+
     }
 }
