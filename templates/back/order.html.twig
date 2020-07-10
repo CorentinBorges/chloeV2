@@ -1,0 +1,64 @@
+{% extends 'base_admin.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+{% endblock %}
+{% block body %}
+ {% set page = app.request.get('page')%}
+
+    <form method="post">
+        <div class="gallery container " id="gallery">
+            {% for picture in pictures %}
+
+                <div class=" pics animation all 2 mb-5  mt-5">
+                    <button class="btn-ord">
+                        <img  title='{{ picture.title }}'   class="img-fluid image ord" id="{{ picture.id }}"  src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}">
+                        <input class="input" type="hidden"
+                                {% if page=='portfolio' %}
+                                    value="{{ picture.getPortfolio() }}"
+                                {% endif %}
+                                {% if page=='papier' %}
+                                    value="{{ picture.papier }}"
+                                {% endif %}
+                                {% if page=='numerique' %}
+                                    value="{{ picture.numerique }}"
+                                {% endif %}
+                               name="{{ picture.id }}">
+                    </button>
+                </div>
+
+            {% endfor %}
+
+        </div>
+        <div class="mx-auto mb-5 mt-5"  style="width: 100px;">
+            <button type="submit" id="submit-all" class="btn btn-primary " >Enregistrer</button>
+        </div>
+    </form>
+
+    {#<div class="text-center container " >
+        <form class='mt-5' method="POST">
+            <div class="del-gallery container" id="gallery">
+                {% for picture in pictures%}
+                    <div type='button' class="mb-3 pics animation all 1 mb-5  mb-5 ml-lg-5 ml-md-0 mt-5 order">
+                        <img class="img-fluid image ord " id='{{picture.id}}' src='{{ asset('images/'~ picture.fileName) }}' alt="{{ picture.alt }}">
+                        <input class="{{ picture.id }}" type='hidden' name='{{ picture.id }}' value='{{ picture.papier }}' ></input>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mx-auto mb-5 mt-5"  style="width: 100px;">
+                <button type="submit" id="submit-all" class="btn btn-primary " >Enregistrer</button>
+            </div>
+        </form>
+    </div>#}
+
+{% endblock %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+     <script src="{{ asset('js/order.js') }}"
+{% endblock %}

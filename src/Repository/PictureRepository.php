@@ -32,16 +32,17 @@ class PictureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
     public function count($category=null)
     {
-
-           $result= $this->createQueryBuilder('p')
-                    ->select('count(p.id)');
-            if ($category) {
-                $result->andWhere("p." . $category . " IS NOT NULL");
-            }
-            return $result ->getQuery()
-                            ->getSingleScalarResult();
+       $result= $this->createQueryBuilder('p')
+                ->select('count(p.id)');
+        if ($category) {
+            $result->andWhere("p." . $category . " IS NOT NULL");
+        }
+        return $result ->getQuery()
+                        ->getSingleScalarResult();
 
 
 

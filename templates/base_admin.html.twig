@@ -18,9 +18,9 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle"  id="dropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ordonner images</a>
                         <div class="dropdown-menu " aria-labelledby="dropdown">
-                            <a class="dropdown-item" href="admin/orderPort">Portfolio</a>
-                            <a class="dropdown-item" href="admin/orderPap">Papier</a>
-                            <a class="dropdown-item" href="admin/orderNum">Numérique</a>
+                            <a class="dropdown-item" href="{{ path('app_order',{page: 'portfolio'}) }}">Portfolio</a>
+                            <a class="dropdown-item" href="{{ path('app_order',{page: 'papier'}) }}">Papier</a>
+                            <a class="dropdown-item" href="{{ path('app_order',{page: 'numerique'}) }}">Numérique</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -38,6 +38,11 @@
     </nav>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
             {{ message }}
         </div>
     {% endfor %}
