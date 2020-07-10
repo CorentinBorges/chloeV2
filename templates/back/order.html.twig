@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 {% endblock %}
 {% block body %}
+ {% set page = app.request.get('page')%}
 
     <form method="post">
         <div class="gallery container " id="gallery">
@@ -11,8 +12,18 @@
 
                 <div class=" pics animation all 2 mb-5  mt-5">
                     <button class="btn-ord">
-                        <img  title='{{ picture.title }}'  name="{{ picture.id }}" class="img-fluid image ord" id="{{ picture.id }}"  src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}">
-                        <input class="input" type="hidden" value="{{ picture.getPortfolio() }}" name="{{ picture.id }}">
+                        <img  title='{{ picture.title }}'   class="img-fluid image ord" id="{{ picture.id }}"  src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}">
+                        <input class="input" type="hidden"
+                                {% if page=='portfolio' %}
+                                    value="{{ picture.getPortfolio() }}"
+                                {% endif %}
+                                {% if page=='papier' %}
+                                    value="{{ picture.papier }}"
+                                {% endif %}
+                                {% if page=='numerique' %}
+                                    value="{{ picture.numerique }}"
+                                {% endif %}
+                               name="{{ picture.id }}">
                     </button>
                 </div>
 
