@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body %}
 
-    <form>
+    <form method="post">
         <div class="gallery container " id="gallery">
             {% for picture in pictures %}
 
@@ -14,9 +14,13 @@
                         <img  title='{{ picture.title }}'  name="{{ picture.id }}" class="img-fluid image ord" id="{{ picture.id }}"  src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}">
                         <input class="input" type="hidden" value="{{ picture.getPortfolio() }}" name="{{ picture.id }}">
                     </button>
-
                 </div>
+
             {% endfor %}
+
+        </div>
+        <div class="mx-auto mb-5 mt-5"  style="width: 100px;">
+            <button type="submit" id="submit-all" class="btn btn-primary " >Enregistrer</button>
         </div>
     </form>
 

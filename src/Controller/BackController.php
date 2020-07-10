@@ -101,9 +101,17 @@ class BackController extends BaseController
     /**
      * @Route("/admin/order/{page<papier|portfolio|numerique>}",name="app_order")
      */
-    public function changeOrder($page,PictureRepository $pictureRepository)
+    public function changeOrder($page,PictureRepository $pictureRepository,Request $request,EntityManagerInterface $entityManager)
     {
+        if ($request->isMethod('post')) {
+            foreach ($request->request->all() as $id => $pageId) {
+                $picture = $pictureRepository->find($id);
+                $picture->setPortfolio($pageId);
+                $entityManager->persist($picture);
+                $entityManager->flush();
 
+            };
+        }
         $pictures = $pictureRepository->findNotNull($page);
         return $this->render('back/order.html.twig', [
             'title' => ucfirst($page),

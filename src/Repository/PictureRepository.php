@@ -32,6 +32,8 @@ class PictureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
     public function count($category=null)
     {
 

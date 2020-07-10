@@ -29,6 +29,7 @@ class FrontController extends AbstractController
      */
     public function index(PictureRepository $repository,$slug='portfolio')
     {
+
         $pictures = $repository->findNotNull($slug);
         if ($slug!=('portfolio'||"papier"||"numerique")) {
             throw $this->createNotFoundException("La page que vous cherchez n'existe pas");
