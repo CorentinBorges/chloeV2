@@ -10,14 +10,14 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="admin/postPic">Ajouter</a>
+                        <a class="nav-link" href="">Ajouter</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin/edit">Editer</a>
+                        <a class="nav-link" href="{{ path('edit_pics') }}">Editer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle"  id="dropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ordonner images</a>
-                        <div class="dropdown-menu " aria-labelledby="dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light"  id="dropdownMenu" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ordonner images</a>
+                        <div class="dropdown-menu " aria-labelledby="dropdownMenu">
                             <a class="dropdown-item" href="{{ path('app_order',{page: 'portfolio'}) }}">Portfolio</a>
                             <a class="dropdown-item" href="{{ path('app_order',{page: 'papier'}) }}">Papier</a>
                             <a class="dropdown-item" href="{{ path('app_order',{page: 'numerique'}) }}">Numérique</a>

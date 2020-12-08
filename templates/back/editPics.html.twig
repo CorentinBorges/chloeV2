@@ -1,0 +1,51 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="gallery2 container " id="gallery">
+        {% for picture in pictures %}
+            {% set form =pictureForm.createView %}
+            <div class=" pics animation all 2 mb-0  mt-5">
+                <button>  <img title='{{ picture.title }}' class="justify-content-center text-center" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
+            </div>
+            {{ form_start(form,{'attr' : {'class': 'formText mt-0 pt-0'}}) }}
+                {{ form_widget(form.id,{'attr' : {'value': picture.id, 'class' :'mt-2' }} ) }}
+                {{ form_widget(form.picName,{'attr' : {'value': picture.title, 'class':'mb-2' }}) }}
+                {{ form_widget(form.description,{'attr' : {'value': picture.alt }}) }}
+                {% if picture.getPortfolio is not null %}
+                    {{ form_widget(form.portfolio,{'attr' : {'checked': 'checked'}} ) }}
+                {% else %}
+                    {{ form_widget(form.portfolio) }}
+                {% endif %}
+                {% if picture.getPapier is not null %}
+                    {{ form_widget(form.papier, {'attr' : {'checked': 'checked'}}) }}
+                {% else %}
+                    {{ form_widget(form.papier) }}
+                {% endif %}
+                {% if picture.getNumerique is not null %}
+                    {{ form_widget(form.numerique, {'attr' : {'checked': 'checked'}}) }}
+                {% else %}
+                    {{ form_widget(form.numerique, {'attr' : {'checked': 'checked'}}) }}
+                {% endif %}
+
+
+            <button type="submit" class="btn-primary mt-3">Modifier</button>
+
+            {{ form_end(form) }}
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+{% endblock %}

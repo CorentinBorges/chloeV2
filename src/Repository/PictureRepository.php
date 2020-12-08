@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -32,6 +31,17 @@ class PictureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findMax(string $page)
+    {
+//        if ($page !==('portfolio' || 'papier' || 'numerique')) {
+//            throw new \InvalidArgumentException(
+//                "You can't add another name page that 'portfolio', 'papier' or 'numerique'");
+//        }
+        return $this->createQueryBuilder('p')
+            ->select('MAX(p.' . $page . ')')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
 
     public function count($category=null)
@@ -45,11 +55,6 @@ class PictureRepository extends ServiceEntityRepository
                         ->getSingleScalarResult();
 
 
-
-        /*return $this->createQueryBuilder('p.id')
-            ->select('COUNT(p)')
-            ->getQuery()
-            ->getSingleScalarResult();*/
     }
 
 

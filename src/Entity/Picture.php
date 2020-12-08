@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\DTO\Pictures\EditPictureDTO;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +47,17 @@ class Picture
      * @ORM\Column(type="integer", nullable=true)
      */
     private $numerique = null;
+
+    public function __construct($id, $title, $alt, $fileName, $portfolio, $papier, $numerique)
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->alt = $alt;
+        $this->fileName = $fileName;
+        $this->portfolio = $portfolio;
+        $this->papier = $papier;
+        $this->numerique = $numerique;
+    }
 
     public function getId(): ?int
     {
@@ -128,5 +140,17 @@ class Picture
     {
         $criteria=PictureRepository::CreateNotNull($attribute);
         return $this->portfolio->matching($criteria);
+    }
+
+
+    public function editPicture(EditPictureDTO $editPictureDTO)
+    {
+        $this->id = $editPictureDTO->id;
+        $this->title =$editPictureDTO->title;
+        $this->alt = $editPictureDTO->alt;
+        $this->fileName = $editPictureDTO->fileName;
+        $this->portfolio = $editPictureDTO->portfolio;
+        $this->papier = $editPictureDTO->papier;
+        $this->numerique = $editPictureDTO->numerique;
     }
 }

@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Cache\PictureCache;
+use App\DTO\Pictures\EditPictureDTO;
 use App\Entity\User;
+use App\Form\EditPicsFormType;
 use App\Form\UserFormType;
 use App\Form\WebInfosFormType;
+use App\Helper\ViolationHelper;
 use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
 use App\Repository\WebsiteInfosRepository;
@@ -14,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class BackController
@@ -23,6 +28,35 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class BackController extends BaseController
 {
 
+    /**
+     * @var PictureCache
+     */
+    private $pictureCache;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+    /**
+     * @var PictureRepository
+     */
+    private $pictureRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(
+        PictureCache $pictureCache,
+        ValidatorInterface $validator,
+        PictureRepository $pictureRepository,
+        EntityManagerInterface $entityManager
+    )
+    {
+        $this->entityManager = $entityManager;
+        $this->pictureCache = $pictureCache;
+        $this->validator = $validator;
+        $this->pictureRepository = $pictureRepository;
+    }
 
 
     /**
@@ -58,18 +92,29 @@ class BackController extends BaseController
         $user = new User();
         $admin = $userRepository->find($userRepository->maxId('App:User'));
 
+        $userForm = $this->createForm(UserFormType::class, $user);
+        $userForm->handleRequest($request);
+        if ($userForm->isSubmitted() && !($userForm->isValid())) {
+            $this->addFlash('error','Aïe, il y à une erreur dans le nom ou le mot de passe!');
+        }
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $admin->setUsername($userForm['username']->getData());
+            if ($userForm['plainPassword']->getData() && !empty($userForm['plainPassword']->getData())) {
+                $admin->setPassword($passwordEncoder->encodePassword($user, $userForm['plainPassword']->getData()));
+            }
+            $em->persist($admin);
+            $em->flush();
+            $this->addFlash('success','Bravo!!! Vous avez admirablement modifié vos données d\'utilisatrice!');
+
+        }
+
         $infos = $infosRepository->find($infosRepository->maxId('App:WebsiteInfos'));
         $infoForm = $this->createForm(WebInfosFormType::class,$infos);
         $infoForm->handleRequest($request);
         if ($infoForm->isSubmitted() && $infoForm->getErrors()) {
             $this->addFlash('error','Aïe, les données n\'ont pu être modifiées!');
 
-        }
-
-        $userForm = $this->createForm(UserFormType::class, $user);
-        $userForm->handleRequest($request);
-        if ($userForm->isSubmitted() && !($userForm->isValid())) {
-            $this->addFlash('error','Aïe, il y à une erreur dans le nom ou le mot de passe!');
         }
 
         if ($infoForm->isSubmitted() && $infoForm->isValid()) {
@@ -79,18 +124,7 @@ class BackController extends BaseController
             $em->flush();
             $this->addFlash('success','Bravo!!! Vous avez admirablement modifié votre site!');
         }
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $admin->setUsername($userForm['username']->getData());
-            if ($userForm['plainPassword']->getData() && !empty($userForm['plainPassword']->getData())) {
-                $admin->setPassword($passwordEncoder->encodePassword($user, $userForm['plainPassword']->getData()));
-            }
 
-
-            $em->persist($admin);
-            $em->flush();
-            $this->addFlash('success','Bravo!!! Vous avez admirablement modifié vos données d\'utilisatrice!');
-
-        }
 
         return $this->render('back/editLogs.html.twig',[
             'userForm' => $userForm->createView(),
@@ -129,6 +163,37 @@ class BackController extends BaseController
             'title' => ucfirst($page),
             'pictures' =>$pictures,
         ]);
+    }
 
+    /**
+     * @Route("/admin/editPictures", name="edit_pics")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editPics(Request $request)
+    {
+        $form = $this->createForm(EditPicsFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $picPDO = new EditPictureDTO($form->getData(), $this->pictureRepository);
+            $errors=$this->validator->validate($picPDO);
+            if ($errors->count() > 0) {
+                $listError = ViolationHelper::build($errors);
+                throw new \InvalidArgumentException($listError);
+            }
+
+            $picture = $this->pictureRepository->find($form->getData()['id']);
+
+            $picture->editPicture($picPDO);
+            $this->entityManager->flush();
+            $this->pictureCache->deleteCache('allPics');
+        }
+
+        $pictures=$this->pictureCache->allPicsCache('allPics',3600);
+        return $this->render('back/editPics.html.twig',[
+            'title' => 'Éditer',
+            'pictures' => $pictures,
+            'pictureForm' => $form
+        ]);
     }
 }
