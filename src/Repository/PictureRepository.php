@@ -34,10 +34,6 @@ class PictureRepository extends ServiceEntityRepository
 
     public function findMax(string $page)
     {
-//        if ($page !==('portfolio' || 'papier' || 'numerique')) {
-//            throw new \InvalidArgumentException(
-//                "You can't add another name page that 'portfolio', 'papier' or 'numerique'");
-//        }
         return $this->createQueryBuilder('p')
             ->select('MAX(p.' . $page . ')')
             ->getQuery()

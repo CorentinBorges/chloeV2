@@ -194,11 +194,13 @@ class BackController extends BaseController
             $picture = $this->pictureRepository->find($form->getData()['id']);
 
             $picture->editPicture($picPDO);
+            $this->entityManager->persist($picture);
             $this->entityManager->flush();
             $this->pictureCache->deleteCache('allPics');
         }
 
         $pictures=$this->pictureCache->allPicsCache('allPics',3600);
+
         return $this->render('back/editPics.html.twig',[
             'title' => 'Éditer',
             'pictures' => $pictures,

@@ -16,20 +16,21 @@
                 {{ form_widget(form.id,{'attr' : {'value': picture.id, 'class' :'mt-2' }} ) }}
                 {{ form_widget(form.picName,{'attr' : {'value': picture.title, 'class':'mb-2' }}) }}
                 {{ form_widget(form.description,{'attr' : {'value': picture.alt }}) }}
-                {% if picture.getPortfolio is not null %}
+                {% if picture.getPortfolio is not null%}
                     {{ form_widget(form.portfolio,{'attr' : {'checked': 'checked'}} ) }}
                 {% else %}
-                    {{ form_widget(form.portfolio) }}
+                    {{ form_widget(form.portfolio, {'attr' : {'class': 'unchecked'}}) }}
                 {% endif %}
                 {% if picture.getPapier is not null %}
                     {{ form_widget(form.papier, {'attr' : {'checked': 'checked'}}) }}
                 {% else %}
-                    {{ form_widget(form.papier) }}
+                    {{ form_widget(form.papier, {'attr' : {'class': 'unchecked'}}) }}
                 {% endif %}
-                {% if picture.getNumerique is not null %}
+                {% if picture.getNumerique is defined and not picture.getNumerique == NULL %}
+                {{ dump(picture.getNumerique) }}
                     {{ form_widget(form.numerique, {'attr' : {'checked': 'checked'}}) }}
                 {% else %}
-                    {{ form_widget(form.numerique, {'attr' : {'checked': 'checked'}}) }}
+                    {{ form_widget(form.numerique, {'attr' : {'class': 'unchecked'}}) }}
                 {% endif %}
 
 
@@ -47,5 +48,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <script src="{{ asset('js/uncheked-edit.js') }}"></script>
 {% endblock %}
