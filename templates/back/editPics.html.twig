@@ -27,7 +27,6 @@
                     {{ form_widget(form.papier, {'attr' : {'class': 'unchecked'}}) }}
                 {% endif %}
                 {% if picture.getNumerique is defined and not picture.getNumerique == NULL %}
-                {{ dump(picture.getNumerique) }}
                     {{ form_widget(form.numerique, {'attr' : {'checked': 'checked'}}) }}
                 {% else %}
                     {{ form_widget(form.numerique, {'attr' : {'class': 'unchecked'}}) }}
