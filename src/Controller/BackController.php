@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Cache\PictureCache;
 use App\DTO\Pictures\EditPictureDTO;
 use App\Entity\User;
+use App\Form\AddPicsType;
 use App\Form\EditPicsFormType;
+use App\Form\ImageFormType;
 use App\Form\UserFormType;
 use App\Form\WebInfosFormType;
+use App\Helper\Pics\AddPicsHelper;
 use App\Helper\ViolationHelper;
 use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
 use App\Repository\WebsiteInfosRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -172,7 +176,7 @@ class BackController extends BaseController
      */
     public function editPics(Request $request)
     {
-        $form = $this->createForm(EditPicsFormType::class);
+        $form = $this->createForm(ImageFormType::class, null,['is_edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $picPDO = new EditPictureDTO($form->getData(), $this->pictureRepository);
@@ -194,6 +198,25 @@ class BackController extends BaseController
             'title' => 'Éditer',
             'pictures' => $pictures,
             'pictureForm' => $form
+        ]);
+    }
+
+    /**
+     * @Route("/admin/addPictures", name="add_pics")
+     * @param Request $request
+     * @param AddPicsHelper $addPicsHelper
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function addPics(Request $request, AddPicsHelper $addPicsHelper)
+    {
+        $form = $this->createForm(AddPicsType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $addPicsHelper->imageCreator($form->get('images'),$this->validator);
+        }
+
+        return $this->render('back/addPics.html.twig',[
+            'form' => $form->createView(),
         ]);
     }
 }

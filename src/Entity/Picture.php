@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\DTO\Pictures\AddPictureDTO;
 use App\DTO\Pictures\EditPictureDTO;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,7 +49,7 @@ class Picture
      */
     private $numerique = null;
 
-    public function __construct($id, $title, $alt, $fileName, $portfolio, $papier, $numerique)
+    public function __construct($title, $alt, $fileName, $portfolio, $papier, $numerique, $id=null)
     {
         $this->id = $id;
         $this->title = $title;
@@ -135,12 +136,12 @@ class Picture
 
         return $this;
     }
-
-    public function portfolio(?string $attribute)
-    {
-        $criteria=PictureRepository::CreateNotNull($attribute);
-        return $this->portfolio->matching($criteria);
-    }
+//
+//    public function portfolio(?string $attribute)
+//    {
+//        $criteria=PictureRepository::CreateNotNull($attribute);
+//        return $this->portfolio->matching($criteria);
+//    }
 
 
     public function editPicture(EditPictureDTO $editPictureDTO)
@@ -152,5 +153,17 @@ class Picture
         $this->portfolio = $editPictureDTO->portfolio;
         $this->papier = $editPictureDTO->papier;
         $this->numerique = $editPictureDTO->numerique;
+    }
+
+    static public function addPicture(AddPictureDTO $addPictureDTO)
+    {
+        return new self(
+            $addPictureDTO->title,
+            $addPictureDTO->alt,
+            $addPictureDTO->fileName,
+            $addPictureDTO->portfolio,
+            $addPictureDTO->papier,
+            $addPictureDTO->numerique
+        );
     }
 }
