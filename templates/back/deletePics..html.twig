@@ -1,0 +1,54 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+{% endblock %}
+{# todo: improve checked when change#}
+{% block body %}
+    <div class="gallery2 container " id="gallery">
+        {% for picture in pictures %}
+            <div class=" pics animation all 2 mb-0  mt-5">
+                <button>  <img title='{{ picture.title }}' class="justify-content-center text-center" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
+            </div>
+            <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="{{ "#delete" ~ picture.id }}">
+                Supprimer l'image
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="{{ "delete" ~ picture.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Voulez vous vraiment supprimer cette image? C'est votre dernier mot?? 😲😲😲
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger">
+                                <a class="del_button" href="{{ path('del_pics', {id: picture.id}) }}">
+                                    Supprimer
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+{% endblock %}
