@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @method Picture|null find($id, $lockMode = null, $lockVersion = null)
@@ -53,10 +54,15 @@ class PictureRepository extends ServiceEntityRepository
         }
         return $result ->getQuery()
                         ->getSingleScalarResult();
-
-
     }
 
+    public function deletePicture(int $id, Filesystem $filesystem)
+    {
+        $pic = $this->findOneBy(["id" => $id,]);
+        $filesystem->remove('images/' . $pic->getFileName());
+        $this->getEntityManager()->remove($pic);
+        $this->getEntityManager()->flush();
+    }
 
 
 

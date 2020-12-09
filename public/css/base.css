@@ -284,6 +284,15 @@ button
 {
     color: red;
 }
+
+.del_button {
+    color: white;
+}
+
+.del_button:hover {
+    color: white;
+    text-decoration: none;
+}
 /***************DropdownMenu*******************/
 .dropdown-menu
 {

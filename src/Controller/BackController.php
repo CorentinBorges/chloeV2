@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Cache\PictureCache;
 use App\DTO\Pictures\EditPictureDTO;
+use App\Entity\Picture;
 use App\Entity\User;
 use App\Form\AddPicsType;
 use App\Form\EditPicsFormType;
@@ -18,7 +19,10 @@ use App\Repository\WebsiteInfosRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Provider\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -84,12 +88,13 @@ class BackController extends BaseController
     }
 
     /**
-     * @Route("/admin/editLogs",name="app_editLogs")
+     * @Route("/admin/logs/edit",name="app_editLogs")
+     * @param UserRepository $userRepository
      * @param Request $request
-     * @param PasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param WebsiteInfosRepository $infosRepository
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function editLogs(UserRepository $userRepository,Request $request,UserPasswordEncoderInterface $passwordEncoder,WebsiteInfosRepository $infosRepository,EntityManagerInterface $em)
     {
@@ -170,9 +175,9 @@ class BackController extends BaseController
     }
 
     /**
-     * @Route("/admin/editPictures", name="edit_pics")
+     * @Route("/admin/pictures/edit", name="edit_pics")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function editPics(Request $request)
     {
@@ -202,10 +207,10 @@ class BackController extends BaseController
     }
 
     /**
-     * @Route("/admin/addPictures", name="add_pics")
+     * @Route("/admin/pictures/add", name="add_pics")
      * @param Request $request
      * @param AddPicsHelper $addPicsHelper
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function addPics(Request $request, AddPicsHelper $addPicsHelper)
     {
@@ -213,10 +218,39 @@ class BackController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $addPicsHelper->imageCreator($form->get('images'),$this->validator);
+            $this->pictureCache->deleteCache('allPics');
         }
 
         return $this->render('back/addPics.html.twig',[
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/pictures/delete/list", name="del_pic_list")
+     */
+    public function deletePicList()
+    {
+        $pictures=$this->pictureCache->allPicsCache('allPics',3600);
+
+        return $this->render('back/deletePics..html.twig', [
+            'pictures' => $pictures,
+            'title' => "Supprimer des images"
+        ]);
+    }
+
+    /**
+     * @Route ("/admin/pictures/delete/{id}", name="del_pics")
+     * @param Picture $picture
+     * @param Filesystem $filesystem
+     * @return RedirectResponse
+     */
+    public function delPic(Picture $picture, Filesystem $filesystem)
+    {
+        $this->pictureRepository->deletePicture($picture->getId(), $filesystem);
+        $this->addFlash("success","Voilà voilà, l'image n'est plus 😱😱😱");
+        $this->pictureCache->deleteCache('all');
+        $this->pictureCache->allPicsCache('allPics',3600);
+        return $this->redirectToRoute('del_pic_list');
     }
 }
