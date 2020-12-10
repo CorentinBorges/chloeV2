@@ -7,7 +7,6 @@ use App\DTO\Pictures\EditPictureDTO;
 use App\Entity\Picture;
 use App\Entity\User;
 use App\Form\AddPicsType;
-use App\Form\EditPicsFormType;
 use App\Form\ImageFormType;
 use App\Form\UserFormType;
 use App\Form\WebInfosFormType;
@@ -17,14 +16,12 @@ use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
 use App\Repository\WebsiteInfosRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Provider\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -69,6 +66,8 @@ class BackController extends BaseController
 
     /**
      * @Route("/admin/home", name="app_admin_home")
+     * @param PictureRepository $pictureRepository
+     * @return Response
      */
     public function index(PictureRepository $pictureRepository)
     {
@@ -96,7 +95,12 @@ class BackController extends BaseController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function editLogs(UserRepository $userRepository,Request $request,UserPasswordEncoderInterface $passwordEncoder,WebsiteInfosRepository $infosRepository,EntityManagerInterface $em)
+    public function editLogs(
+        UserRepository $userRepository,
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        WebsiteInfosRepository $infosRepository,
+        EntityManagerInterface $em)
     {
         $user = new User();
         $admin = $userRepository->find($userRepository->maxId('App:User'));
@@ -143,8 +147,17 @@ class BackController extends BaseController
 
     /**
      * @Route("/admin/order/{page<papier|portfolio|numerique>}",name="app_order")
+     * @param $page
+     * @param PictureRepository $pictureRepository
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
-    public function changeOrder($page,PictureRepository $pictureRepository,Request $request,EntityManagerInterface $entityManager)
+    public function changeOrder(
+        $page,
+        PictureRepository $pictureRepository,
+        Request $request,
+        EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('post')) {
 
@@ -163,8 +176,12 @@ class BackController extends BaseController
                 }
                 $entityManager->persist($picture);
                 $entityManager->flush();
+            }
+            $this->pictureCache->deleteCache('allPics'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('portfolio'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('numerique'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('papier'.$_SERVER['APP_ENV']);
 
-            };
         }
 
         $pictures = $pictureRepository->findNotNull($page);
@@ -179,7 +196,7 @@ class BackController extends BaseController
      * @param Request $request
      * @return Response
      */
-    public function editPics(Request $request)
+    public function editPics(Request $request): Response
     {
         $form = $this->createForm(ImageFormType::class, null,['is_edit' => true]);
         $form->handleRequest($request);
@@ -196,10 +213,13 @@ class BackController extends BaseController
             $picture->editPicture($picPDO);
             $this->entityManager->persist($picture);
             $this->entityManager->flush();
-            $this->pictureCache->deleteCache('allPics');
+            $this->pictureCache->deleteCache('allPics'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('portfolio'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('numerique'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('papier'.$_SERVER['APP_ENV']);
         }
 
-        $pictures=$this->pictureCache->allPicsCache('allPics',3600);
+        $pictures=$this->pictureCache->allPicsCache('allPics'.$_SERVER['APP_ENV'],259200);
 
         return $this->render('back/editPics.html.twig',[
             'title' => 'Éditer',
@@ -214,13 +234,16 @@ class BackController extends BaseController
      * @param AddPicsHelper $addPicsHelper
      * @return Response
      */
-    public function addPics(Request $request, AddPicsHelper $addPicsHelper)
+    public function addPics(Request $request, AddPicsHelper $addPicsHelper): Response
     {
         $form = $this->createForm(AddPicsType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $addPicsHelper->imageCreator($form->get('images'),$this->validator);
-            $this->pictureCache->deleteCache('allPics');
+            $this->pictureCache->deleteCache('allPics'.$_SERVER["APP_ENV"]);
+            $this->pictureCache->deleteCache('portfolio'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('numerique'.$_SERVER['APP_ENV']);
+            $this->pictureCache->deleteCache('papier'.$_SERVER['APP_ENV']);
         }
 
         return $this->render('back/addPics.html.twig',[
@@ -231,9 +254,9 @@ class BackController extends BaseController
     /**
      * @Route("/admin/pictures/delete/list", name="del_pic_list")
      */
-    public function deletePicList()
+    public function deletePicList(): Response
     {
-        $pictures=$this->pictureCache->allPicsCache('allPics',3600);
+        $pictures=$this->pictureCache->allPicsCache('allPics'.$_SERVER["APP_ENV"],259200);
 
         return $this->render('back/deletePics..html.twig', [
             'pictures' => $pictures,
@@ -247,12 +270,15 @@ class BackController extends BaseController
      * @param Filesystem $filesystem
      * @return RedirectResponse
      */
-    public function delPic(Picture $picture, Filesystem $filesystem)
+    public function delPic(Picture $picture, Filesystem $filesystem): RedirectResponse
     {
         $this->pictureRepository->deletePicture($picture->getId(), $filesystem);
         $this->addFlash("success","Voilà voilà, l'image n'est plus 😱😱😱");
         $this->pictureCache->deleteCache('all');
-        $this->pictureCache->allPicsCache('allPics',3600);
+        $this->pictureCache->deleteCache('portfolio'.$_SERVER['APP_ENV']);
+        $this->pictureCache->deleteCache('numerique'.$_SERVER['APP_ENV']);
+        $this->pictureCache->deleteCache('papier'.$_SERVER['APP_ENV']);
+        $this->pictureCache->allPicsCache('allPics'.$_SERVER["APP_ENV"],259200);
         return $this->redirectToRoute('del_pic_list');
     }
 }
