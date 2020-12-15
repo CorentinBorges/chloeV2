@@ -30,31 +30,31 @@ class PictureFixture extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
-            $picture = new Picture();
-            $picture->setTitle($this->faker->randomElement(self::$titles));
-            $picture->setAlt($picture->getTitle());
-            $picture->setFileName($picture->getTitle().".png");
-            $this->randomPages($picture, $i);
-            $manager->persist($picture);
-        }
-        $manager->flush();
+//        for ($i = 0; $i < 10; $i++) {
+//            $picture = new Picture();
+//            $picture->setTitle($this->faker->randomElement(self::$titles));
+//            $picture->setAlt($picture->getTitle());
+//            $picture->setFileName($picture->getTitle().".png");
+//            $this->randomPages($picture, $i);
+//            $manager->persist($picture);
+//        }
+//        $manager->flush();
     }
 
     public function randomPages(Picture $entity,int $j,int $chancesOfTrue=70)
     {
-        $var=[];
-        for ($i = 0; $i < 3; $i++) {
-            $var[]=$this->faker->boolean($chancesOfTrue);
-            }
-        if($var[0]){
-            $entity->setPapier($j);
-        }
-        if($var[1]){
-            $entity->setPortfolio($j);
-        }
-        if($var[2]){
-            $entity->setNumerique($j);
-        }
+//        $var=[];
+//        for ($i = 0; $i < 3; $i++) {
+//            $var[]=$this->faker->boolean($chancesOfTrue);
+//            }
+//        if($var[0]){
+//            $entity->setPapier($j);
+//        }
+//        if($var[1]){
+//            $entity->setPortfolio($j);
+//        }
+//        if($var[2]){
+//            $entity->setNumerique($j);
+//        }
     }
 }

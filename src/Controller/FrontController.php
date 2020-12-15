@@ -36,11 +36,10 @@ class FrontController extends AbstractController
 
     /**
      * @Route("/images/{slug}", name="show")
-     * @param PictureRepository $repository
      * @param string $slug
      * @return Response
      */
-    public function index(PictureRepository $repository,$slug='portfolio'): Response
+    public function index(string $slug): Response
     {
 
         $pictures = $this->pictureCache->pageCache($slug,$slug.$_SERVER['APP_ENV'],259200);
