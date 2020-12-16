@@ -58,7 +58,6 @@ class PictureRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($pic);
         $this->getEntityManager()->flush();
         $filesystem->remove('images/' . $pic->getFileName());
-
     }
 
 

@@ -3,17 +3,20 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/delPic.css') }}">
+
 {% endblock %}
 {# todo: improve checked when change#}
 {% block body %}
-    <div class="gallery2 container " id="gallery">
+    <div class="del-gallery container " id="gallery">
         {% for picture in pictures %}
-            <div class=" pics animation all 2 mb-0  mt-5">
+            <div class=" animation all 2 mb-0  mt-5">
                 <button>  <img title='{{ picture.title }}' class="justify-content-center text-center" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
+                <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="{{ "#delete" ~ picture.id }}">
+                    Supprimer l'image
+                </button>
             </div>
-            <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="{{ "#delete" ~ picture.id }}">
-                Supprimer l'image
-            </button>
+
 
             <!-- Modal -->
             <div class="modal fade" id="{{ "delete" ~ picture.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
