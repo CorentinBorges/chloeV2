@@ -274,7 +274,7 @@ class BackController extends BaseController
     {
         $this->pictureRepository->deletePicture($picture->getId(), $filesystem);
         $this->addFlash("success","Voilà voilà, l'image n'est plus 😱😱😱");
-        $this->pictureCache->deleteCache('all');
+        $this->pictureCache->deleteCache('allPics'.$_SERVER["APP_ENV"]);
         $this->pictureCache->deleteCache('portfolio'.$_SERVER['APP_ENV']);
         $this->pictureCache->deleteCache('numerique'.$_SERVER['APP_ENV']);
         $this->pictureCache->deleteCache('papier'.$_SERVER['APP_ENV']);

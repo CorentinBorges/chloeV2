@@ -31,6 +31,8 @@ class PictureCache
          * @var CacheItemInterface $element
          */
         $element = $this->cache->getItem($item);
+        $this->cache->delete($item);
+
         if (!$element->isHit()) {
             $datas = $this->pictureRepository->findAll();
             $element->set($datas);
@@ -46,6 +48,7 @@ class PictureCache
          * @var CacheItemInterface $element
          */
         $element = $this->cache->getItem($item);
+        $this->cache->delete($item);
         if (!$element->isHit()) {
             $datas = $this->pictureRepository->findNotNull($page);
             $element->set($datas);

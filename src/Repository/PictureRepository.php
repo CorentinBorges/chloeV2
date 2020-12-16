@@ -55,9 +55,10 @@ class PictureRepository extends ServiceEntityRepository
     public function deletePicture(int $id, Filesystem $filesystem)
     {
         $pic = $this->findOneBy(["id" => $id,]);
-        $filesystem->remove('images/' . $pic->getFileName());
         $this->getEntityManager()->remove($pic);
         $this->getEntityManager()->flush();
+        $filesystem->remove('images/' . $pic->getFileName());
+
     }
 
 
