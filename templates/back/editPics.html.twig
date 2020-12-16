@@ -12,7 +12,7 @@
         {% for picture in pictures %}
             {% set form =pictureForm.createView %}
             <div class=" animation all 2 mb-0  mt-5">
-                <button>  <img title='{{ picture.title }}' class="justify-content-center text-center" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
+                <button>  <img title='{{ picture.title }}' class="justify-content-center img-fluid image text-center" id="{{ picture.id }}" src="{{ asset('images/'~ picture.fileName) }}" alt="{{ picture.alt }}"></button>
 
                 {{ form_start(form,{'attr' : {'class': 'formText mt-0 pt-0'}}) }}
                     {{ form_widget(form.id,{'attr' : {'value': picture.id, 'class' :'mt-2' }} ) }}
